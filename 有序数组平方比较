@@ -1,0 +1,38 @@
+//有序数组平方  leetcode链接：https://leetcode.cn/problems/squares-of-a-sorted-array/
+//比较方式：可以先画个数轴，以0为原点，指针从左右两边开始比大小，比完一个就将其存放入一个新的数组中
+#include<stdio.h>
+#include<stdlib.h>
+int* Sqarr(int* arr,int arr_size)
+{
+	int leftindex=0,rightindex=arr_size-1;
+	int* chucun = (int*)malloc(sizeof(int)*arr_size);  //动用了两个数组，一个用来主函数调用输入的数组放入sqarr函数中作比较，一个用来储存比较完并排序后的数组并返回主函数
+	for (int i=arr_size-1;i>=0;i--) 
+	{
+		int left = arr[leftindex] * arr[leftindex];
+		int right = arr[rightindex] * arr[rightindex];
+		if (arr[leftindex]*arr[leftindex] > arr[rightindex]*arr[rightindex])
+		{
+			chucun[i] = arr[leftindex] * arr[leftindex];
+			leftindex++;
+		}
+		else
+		{
+			chucun[i] = arr[rightindex] * arr[rightindex];
+			rightindex--;
+		}
+	}
+	return chucun;
+}
+int main()
+{
+	int arr_size;
+	int* arr=(int*)malloc(sizeof(int));
+	printf("input arr_size\n");
+	scanf_s("%d", &arr_size);
+	printf("input your array\n");
+	for (int i = 0; i < arr_size; i++)
+		scanf_s("%d", arr + i);
+	arr=Sqarr(arr,arr_size);
+	for(int i=0;i<arr_size;i++)
+	printf("%d\t", *(arr + i));
+}
