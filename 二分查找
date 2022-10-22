@@ -1,0 +1,44 @@
+//二分法(双闭区间)如果是开区间[left,right)需要把right>=left变成right>left,且right=length使得多出一格
+#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+     int length,target;
+	printf("array.length\n");
+	scanf_s("%d", &length);
+	int* array = (int*)malloc(sizeof(int));
+	printf("array_up\n");
+	for (int i = 0; i < length; i++)
+	{
+		scanf_s("%d", array+i);
+	}
+	printf("scanf_target\n");
+	scanf_s("%d", &target);
+	int left, right, middle;
+	left = 0;
+	right = length-1;
+	while (right >= left)
+	{
+		
+			middle = (left + right) / 2;
+			if (target < array[middle])
+				right = middle - 1;
+			else if (target > array[middle])
+				left = middle + 1;
+			else if (target == array[middle])
+			{
+				break;
+			}
+			else
+				printf("-1");
+		
+	}
+	if (right >= left)
+	{
+		printf("%d\t", middle);
+		printf("%d", array[middle]);
+	}
+	if (right < left)
+		printf("-1");
+}
+//上述试题leetcode704 二分查找 链接：https://leetcode.cn/problems/binary-search/ 
