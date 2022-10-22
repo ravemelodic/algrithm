@@ -1,0 +1,70 @@
+//长度最小子数组(暴力解法)
+int minarr(int arr1[6])
+{
+	int s = 7;
+	int i = 0, j = 0;
+	int minsize=6;  //将minsize初始值设定为最大子数组长度
+	for (i = 0; i < 6; i++)
+	{
+		int size = 0;
+		int sum = 0;
+		for (j = i; j < 6; j++)
+		{
+			sum=sum+arr1[j];
+			if (sum >= s)
+			{
+				size = j - i + 1;
+				if (size < minsize)
+				{
+					minsize = size;
+				}
+			}
+		}
+ }
+	printf("最小连续子数组为");
+	return minsize;
+
+}
+int main()
+{
+	int size;
+	int arr1[6] = {2,3,1,2,4,3};
+	size=minarr(arr1);
+	printf("%d", size);
+}
+
+
+//滑动窗口算法 所谓滑动窗口，就是不断的调节子序列的起始位置和终止位置，从而得出我们要想的结果。
+//这里的i是起始位置，j是终止位置(通过改变i,j寻找最短连续子序列的初始位置与终止位置)
+int minarr(int arr[6])
+{
+	int sum = arr[0];
+	int minsize = 6;
+	int i = 0;
+	int size;
+	for (int j = 0; j < 6; j++)
+	{
+		if (sum >= 6)
+		{
+			size = j - i + 1;
+			sum = sum - arr[i];
+			i++;
+			j--;  //使用j--与j++配合使得其在运行时不发生改变
+			if (size < minsize&&size>1)
+				minsize = size;
+		}
+		else 
+			sum = sum + arr[j+1];  //先加j+1再变动j的位置到j+1,防止加完后移动到j+1的位置导致子序列起始位置与终止位置的这段序列的长度变长
+
+	}
+	return minsize;
+}
+int main()
+{
+	int size;
+	int arr[6] = { 2,3,1,2,4,3};
+	size = minarr(arr);
+	printf("%d", size);
+}
+//解答详情：地址：https://programmercarl.com/0209.%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84.html#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3
+//leetcode原题地址：https://leetcode.cn/problems/minimum-size-subarray-sum/
