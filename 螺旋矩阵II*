@@ -1,0 +1,56 @@
+//螺旋矩阵II
+int** matrix(int** ans,int num)
+{
+	int x=0;
+	int y=0;
+	int i,j,middle;
+	int k = num/2;
+	int first = 1;
+	int loop = 0; //已经循环圈数
+	j = y;  //j和i都要放在for外防止while循环第二次进入重新赋值i,j
+	i = x;
+	   int round = num / 2; //循环剩余圈数
+	   while (round)
+	   {
+		   for (; j < num-1-loop; j++) //第loop行左到右前(num-1-loop)-1个(最后一个需要跟最后一列循环输出) ps：此处第k行(k从0到n-1)
+			   ans[i][j] = first++;
+		   for (; i < num-1-loop; i++) //第num-1-loop列从上往下到第loop行
+			   ans[i][j] = first++;
+		   for (; j > loop; j--)
+			   ans[i][j] = first++;  //第num列从右往左到第2列
+		   for (; i >loop; i--)
+			   ans[i][j] = first++;  //第num行从下往上到第2行  i=1,j=0
+		   if (num % 2 == 1)
+		   {
+			   middle = num / 2;
+			   ans[middle][middle] = first++;
+		   }
+		   if (num % 2 == 0)
+			   k--;
+		   round--;
+		   loop++;
+		   i++;
+		   j++;
+	   }
+	return ans;
+}
+//ps:for循环中的i即使最后一次判断i<num-1不满足条件，但是i是在for中的,所以如果在for循环外输出i那么i=num-1，如果在for循环内输出i那么i=num-2
+int main()
+{
+	int num;
+	int** rmatrix;
+	printf("input one number\n");
+	scanf_s("%d", &num);
+	int** ans = (int**)malloc(num * sizeof(int*));//二维数组的建立
+	for (int i = 0; i < num; i++)
+	 ans[i] = (int*)malloc(num * sizeof(int));
+	rmatrix = matrix(ans,num);
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < num; j++)
+		{
+			printf("%4d", rmatrix[i][j]);
+		}
+		printf("\n");
+	}
+}
