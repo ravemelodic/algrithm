@@ -1,0 +1,38 @@
+//优化完全  leetcode题目链接：https://leetcode.cn/problems/remove-element/
+#include<stdio.h>
+#include<stdlib.h>
+int Delete(int nums_size,int* nums)
+{   int val = 3;
+	int slowindex = 0;
+	
+	
+	for (int fastindex = 0; fastindex < nums_size; fastindex++)
+	{
+		if (val != nums[fastindex])
+		{
+			nums[slowindex] = nums[fastindex];
+			slowindex++;
+		}
+	}
+	for (int i = 0; i < slowindex; i++)
+		printf("%d", nums[i]);
+	return slowindex;
+
+}
+
+int main()
+{
+	int new_nums_size;
+	int nums_length;
+	int* nums = (int*)malloc(sizeof(int));   //nums头指针占一个格4个字节 使用nums+i可以直接动态分配4+4*i个字节 但是如果使用nums[i]就一定在之前就通过malloc(i*sizeof(int))分配i个格子(每个格子4个字节)
+	//即 int* nums = (int*)malloc(sizeof(int))加上nums+i等于int* nums=(int*)malloc(i*sizeof(int))
+	printf("input length of nums\n");
+	scanf_s("%d", &nums_length);
+	printf("input nums\n");
+	for (int i = 0; i < nums_length; i++)
+		scanf_s("%d", nums + i);
+	int nums_size = nums_length;
+	new_nums_size = Delete(nums_size,nums);
+	printf("\n");
+	printf("%d", new_nums_size);
+}
