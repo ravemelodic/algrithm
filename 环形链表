@@ -26,27 +26,4 @@ struct ListNode *detectCycle(struct ListNode *head)   //输入head=[3,2,0,4] pos
 	//没有环的情况
 	return NULL;
 }
-#include<string>
-//有效字母异位词
-bool isAnagram(char* s, char* t) 
-{
-	int hash[26] = { 0 };
-	int s_size=0,t_size=0;
-	int i, j;
-	s_size = strlen(s);
-	t_size = strlen(t);
-	for (i = 0; i < s_size; i++)
-	{
-		hash[s[i] - 'a']++;
-	}
-	for (j = 0; j < t_size; j++)
-	{
-		hash[t[j] - 'a']--;
-	}
-	for (int n = 0; n < 26; n++)
-	{
-		if (hash[n] != 0)
-			return false;
-	}
-	return true;
-}
+
