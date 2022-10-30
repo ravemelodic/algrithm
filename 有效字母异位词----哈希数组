@@ -1,21 +1,22 @@
 #include<string>
-//有效字母异位词
+//有效字母异位词  eae与aee就是一组字母异位词  abc和ab就不是因为多出了一个c
 bool isAnagram(char* s, char* t) 
 {
-	int hash[26] = { 0 };
+	int hash[26] = { 0 };  //哈希数组初始化
 	int s_size=0,t_size=0;
 	int i, j;
 	s_size = strlen(s);
 	t_size = strlen(t);
 	for (i = 0; i < s_size; i++)
 	{
-		hash[s[i] - 'a']++;
+		hash[s[i] - 'a']++;  //通过ASCII码差值获取字母的位置，利用哈希数组统计
 	}
 	for (j = 0; j < t_size; j++)
 	{
-		hash[t[j] - 'a']--;
+		hash[t[j] - 'a']--;  //判断t的字母与s是否有重复，重复哈希数组中该字母位置所对应的值-1
 	}
-	for (int n = 0; n < 26; n++)
+	for (int n = 0; n < 26; n++)  
+	//当所有值为0时那么就可以证明s与t是字母异位词
 	{
 		if (hash[n] != 0)
 			return false;
