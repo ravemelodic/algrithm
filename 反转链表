@@ -1,0 +1,63 @@
+反转链表(双指针法)
+typedef struct reverselist
+{
+	int data;
+	reverselist* next;
+}reverselist;
+
+reverselist* reverse(reverselist* head,int new_node_length)  //反转单链表
+{
+	reverselist* cur, * pre,*tmp;
+	pre = NULL;
+	cur = head;
+	while (cur) //当cur!=NULL持续循环
+	{
+		tmp = cur->next;  //tmp用来保存原来的链表的cur->next的位置
+		cur->next = pre;   //反转指向新的节点
+		pre = cur;
+		cur = tmp;
+	}
+	return pre;
+}
+//递归
+
+reverselist* reverse(reverselist* pre, reverselist* cur)
+{
+	reverselist* pre, * cur, * tmp;
+	if(!cur)
+	return pre;
+	else
+	{tmp = cur->next;
+	cur->next = pre;
+	return reverse(cur,tmp);}
+}
+
+
+
+int main()
+{
+	int new_node_length;
+	printf("input node_length\n");
+	scanf_s("%d", &new_node_length);
+	//初始化链表
+	reverselist* head = (reverselist*)malloc(sizeof(reverselist));
+	reverselist* new_head=head;
+	new_head->next = NULL;
+	//输入链表
+	printf("input node\n");
+	for (int i = 1; i <= new_node_length; i++)
+	{
+		reverselist* new_node = (reverselist*)malloc(sizeof(reverselist));
+		scanf_s("%d", &new_node->data);
+		new_node->next = new_head->next;
+		new_head->next = new_node;
+		new_head = new_node;
+	}
+	reverselist* tmp_head = reverse(head,new_node_length);
+	//输出链表
+	while (tmp_head->next)
+	{
+		printf("%d->", tmp_head->data);
+		tmp_head = tmp_head->next;
+	}
+}
