@@ -1,0 +1,150 @@
+typedef struct listnode 
+{
+	int val;
+	listnode* next;
+}listnode;
+
+
+int getindex(int index,listnode* head) //获取链表中第 index 个节点的值。如果索引无效，则返回-1
+{
+	listnode* p = (listnode*)malloc(sizeof(listnode));
+	p = head;
+	for (int i = 1; i <= 5; i++)
+	{
+		if (i == index)
+		{
+			return p->val;
+		}
+		else if (i > 5 && i <= 0)
+			return -1;
+		p = p->next;
+	}
+}
+
+listnode* addAthead(listnode* head,int index) //在链表的第一个元素之前添加一个值为 val 的节点。插入后，新节点将成为链表的第一个节点
+{
+	if (head)
+	{
+		listnode* next_head = head->next;
+		listnode* new_node = (listnode*)malloc(sizeof(listnode));
+		new_node->val = index;
+		new_node->next = next_head;
+		head->next = new_node;
+	}
+	
+	return head;    //可以尝试返回指向head的指针试试会不会报错(待试)
+}
+
+listnode* addAttail(listnode* head,int val) //将值为 val 的节点追加到链表的最后一个元素
+{	
+	listnode* tmp=head;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	listnode* finalnode = (listnode*)malloc(sizeof(listnode));
+	finalnode->val = val;
+	finalnode->next = NULL;
+	tmp->next = finalnode;
+	return head;
+}
+
+listnode* addAtindex()  //在链表中的第 index 个节点之前添加值为 val  的节点。如果 index 等于链表的长度，则该节点将附加到链表的末尾。如果 index 大于链表长度，则不会插入节点。如果index小于0，则在头部插入节点。
+{
+
+}
+
+listnode* DeleteAtindex(listnode* head,int index)  //删除第index个节点
+{
+	listnode* searchnode=head;  //用于遍历
+	listnode* tmp;
+
+	for (int i = 1; i <= 5; i++)
+	{   searchnode = searchnode->next;
+		if (i == index-1)
+		{
+			tmp = searchnode->next;  //保存第index个节点，防止后面越过找不到这个地址
+			searchnode->next = searchnode->next->next;
+			free(tmp);
+		}
+		
+	}
+	return head;
+}
+void print(listnode* L)
+{
+	listnode* p = L->next;
+	while (p != NULL)
+	{
+		printf("%d", p->val);
+		p = p->next;
+	}
+}
+
+int main()
+{
+	listnode* head, * p, * q;
+	int index,c;
+	//初始化链表
+	head = (listnode*)malloc(sizeof(listnode));
+	head->next = NULL;
+	q = head;
+	
+	printf("input node\n");
+	for (int i = 0; i < 5; i++)
+	{
+		p = (listnode*)malloc(sizeof(listnode));
+		scanf_s("%d", &p->val);
+		q->next = p->next;
+		q->next = p;
+		q = p;
+	}
+
+	printf("choose your choice\n");
+	scanf_s("%d", &c);
+	if (c == 1)
+	{
+		printf("input index\n");
+		scanf_s("%d", &index);
+		int returnget = getindex(index, head);
+		printf("the val of index=%d", returnget);
+	}
+	else if (c == 2)
+	{
+		printf("input index\n");
+		scanf_s("%d", &index);
+		head= addAthead(head,index);
+		listnode* new_node = head->next;  //此处new_node会被某处覆盖掉了，分配内存丢失，调试会报错但是执行是正确的，此处暂时不加处理
+		while (new_node!= NULL)
+		{
+			
+			printf("%d", new_node->val);
+			new_node = new_node->next;
+		}
+	}
+	else if (c == 3)
+	{
+		int val;
+		printf("input val\n");
+		scanf_s("%d", &val);
+		listnode* finalnode;
+		finalnode = addAttail(head,val);
+		while (finalnode->next!= NULL)
+		{
+			printf("%d", finalnode->next->val);
+			finalnode = finalnode->next;
+		}
+	}
+	
+	else if (c == 4)
+	{
+
+
+	}
+	else if (c == 5)
+	{
+		int index;
+		listnode* L,*p;
+		printf("input index");
+		scanf_s("%d", &index);
+		p = DeleteAtindex(head,index);
+		print(p);
+	}
