@@ -1,17 +1,17 @@
 #include"uthash.h"   //当我们需要查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。
-typedef struct hashTable 
+typedef struct hashTable //建立哈希表
 {
 	int key;
 	int val;
-	UT_hash_handle hh;
+	UT_hash_handle hh;  //哈希类型
 }hashTable;
 
-hashTable* hashtable;
+hashTable* hashtable;  //哈希类型的哈希表
 
 hashTable* find(int key1)
 {
 	hashTable* map=NULL;
-	HASH_FIND_INT(hashtable, &key1, map); //运行哈希函数find查找对应的键值对的地址
+	HASH_FIND_INT(hashtable, &key1, map); //运行哈希函数find通过hashtable查找对应的键值对的地址，map为通过key寻找到val后返回key-val，然后通过map指向当次寻找到的key-val
 	return map;
 }
 
@@ -20,12 +20,12 @@ void insert(int key1, int val)
 	hashTable* it = find(key1);
 	if (it == NULL)
 	{
-		hashTable* map = (hashTable*)malloc(sizeof(hashTable));
-		map->key = key1, map->val = val;
-		HASH_ADD_INT(hashtable, key, map);//运行哈希函数add实现新键值对的添加
+		hashTable* map = (hashTable*)malloc(sizeof(hashTable));  //注意这个map与find的map不同，这个map是一个新建的哈希表类型指针，其指向新分配的哈希表
+		map->key = key1, map->val = val; //向哈希表中存入新key和新val
+		HASH_ADD_INT(hashtable, key, map);//运行哈希函数add将map指向的新哈希表的内容(key-val)放入原来的hashtable中(因为在使用find时，寻找的是hashtable的key-val，不是map指向的那个)
 	}
 	else {
-		it->val = val;
+		it->val = val; //如果find(key)=NULL那么就将val添加入hashtable，it仍然为NULL，反之则直接获取val
 	}
 }
 
@@ -35,7 +35,7 @@ int* twonums_add(int* nums, int numsSize, int target, int* returnSize)
 	hashtable = NULL;  //在这里使用初始化可以保证如果主函数循环调用twonums_add函数时之前调用存入至hashtable中的键值对可以重新clear(因为每次调用清空的是twonues_Add函数而不是hashtable)
 	for (int i = 0; i < numsSize; i++)
 	{
-		hashTable* p = find(target - nums[i]);
+		hashTable* p = find(target - nums[i]);  //对于某两个数a,b,若a+b=target 当第一次使用find(target-a)时find=NULL,调用insert将a储存至hashtable，当target-b=a时，此时hashtable里存在a，直接找到target-b将b输入并返回，如果不是那么继续加入进哈市table中
 		if (p != NULL)
 		{
 			//运行输出部分
