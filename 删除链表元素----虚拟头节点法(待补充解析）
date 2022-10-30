@@ -1,32 +1,32 @@
-typedef struct listnode
+typedef struct listnode     //创建链表节点(含val,指针next用于指向下一个节点)
 {
 	int val;
 	listnode* next;
 }listnode;
 
-listnode* shanchu(listnode* head,int val)
-{
-	listnode* dummynode=(listnode*)malloc(sizeof(listnode));
-	dummynode->next = head;
-	listnode* curnode = dummynode;
-	while (curnode->next!=NULL)
+listnode* shanchu(listnode* head,int val)      //建立函数
+{                                                
+	listnode* dummynode=(listnode*)malloc(sizeof(listnode));     //建立虚拟头节点
+	dummynode->next = head;        //虚拟头节点下一个节点为头节点
+	listnode* curnode = dummynode;      //建立指针指向虚拟头节点(该指针用于遍历)
+	while (curnode->next!=NULL)   //因为要删除的链表元素节点是curnode下一个节点，而curnode->next->next=NULL,所以只要curnode->next!=node就可以
 	{
-		if (curnode->next->val == val)
+		if (curnode->next->val == val)  //满足条件的就是要删除的
 		{
-			listnode* tmp = curnode->next;
-			curnode->next = curnode->next->next;
-			free(tmp);
+			listnode* tmp = curnode->next;   //用指针保存要删除的节点信息(为了能够获得该地址从而释放内存，不然删除了就无法获取该地址)
+			curnode->next = curnode->next->next;  //删除节点
+			free(tmp);  //释放内存
 		}
 		else
-			curnode = curnode->next;
+			curnode = curnode->next;   //不满足就下一个
 	}
-	head = dummynode->next;
-	free(dummynode);
+	head = dummynode->next;  //让head变回头节点，以及获取dummynode中的信息
+	free(dummynode); //释放虚拟头节点
 	return head;
 
 }
 
-int main()
+int main()  //以下部分为调用与输入val和输出链表
 {
 	listnode* p, * q;
 	int val = 3;
