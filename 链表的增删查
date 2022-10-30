@@ -8,7 +8,7 @@ typedef struct listnode
 int getindex(int index,listnode* head) //获取链表中第 index 个节点的值。如果索引无效，则返回-1
 {
 	listnode* p = (listnode*)malloc(sizeof(listnode));
-	p = head;
+	p = head;   //指针指向头节点，用于遍历链表
 	for (int i = 1; i <= 5; i++)
 	{
 		if (i == index)
@@ -21,7 +21,7 @@ int getindex(int index,listnode* head) //获取链表中第 index 个节点的�
 	}
 }
 
-listnode* addAthead(listnode* head,int index) //在链表的第一个元素之前添加一个值为 val 的节点。插入后，新节点将成为链表的第一个节点
+listnode* addAthead(listnode* head,int index) //在链表的第一个元素之前添加一个值为 val 的节点。插入后，新节点将成为链表的第一个节点(注：此处head不包含任何元素，第一个元素从head后第一个节点开始(但是通常都从head开始))
 {
 	if (head)
 	{
@@ -32,18 +32,18 @@ listnode* addAthead(listnode* head,int index) //在链表的第一个元素之�
 		head->next = new_node;
 	}
 	
-	return head;    //可以尝试返回指向head的指针试试会不会报错(待试)
+	return head;    //可以尝试返回指向head的指针试试会不会报错(在主函数会存在指针被覆盖而形成空指针，与函数内无关)
 }
 
 listnode* addAttail(listnode* head,int val) //将值为 val 的节点追加到链表的最后一个元素
 {	
 	listnode* tmp=head;
 	while (tmp->next != NULL)
-		tmp = tmp->next;
-	listnode* finalnode = (listnode*)malloc(sizeof(listnode));
-	finalnode->val = val;
-	finalnode->next = NULL;
-	tmp->next = finalnode;
+		tmp = tmp->next;  //tmp指向最后一个节点
+	listnode* finalnode = (listnode*)malloc(sizeof(listnode));   //分配一个内存用于存放添加到链表最后一个元素的新节点
+	finalnode->val = val;    
+	finalnode->next = NULL; 
+	tmp->next = finalnode;//原来最后一个节点变为倒数第二个节点
 	return head;
 }
 
@@ -52,14 +52,14 @@ listnode* addAtindex()  //在链表中的第 index 个节点之前添加值为 v
 
 }
 
-listnode* DeleteAtindex(listnode* head,int index)  //删除第index个节点
+listnode* DeleteAtindex(listnode* head,int index)  //删除第index个节点(记住要想删除某个节点，就需要找到这个节点的前一个节点的位置，要想删掉头节点就需要建立虚拟头节点作为新头节点)
 {
 	listnode* searchnode=head;  //用于遍历
 	listnode* tmp;
 
 	for (int i = 1; i <= 5; i++)
 	{   searchnode = searchnode->next;
-		if (i == index-1)
+		if (i == index-1)  //让指针遍历到index前一个节点
 		{
 			tmp = searchnode->next;  //保存第index个节点，防止后面越过找不到这个地址
 			searchnode->next = searchnode->next->next;
@@ -69,7 +69,7 @@ listnode* DeleteAtindex(listnode* head,int index)  //删除第index个节点
 	}
 	return head;
 }
-void print(listnode* L)
+void print(listnode* L)  //逐节点输出
 {
 	listnode* p = L->next;
 	while (p != NULL)
