@@ -8,36 +8,36 @@ typedef struct reverselist
 reverselist* reverse(reverselist* head,int new_node_length)  //反转单链表
 {
 	reverselist* cur, * pre,*tmp;
-	pre = NULL;
-	cur = head;
+	pre = NULL;  //指针一
+	cur = head;  //指针二
 	while (cur) //当cur!=NULL持续循环
 	{
 		tmp = cur->next;  //tmp用来保存原来的链表的cur->next的位置
 		cur->next = pre;   //反转指向新的节点
-		pre = cur;
+		pre = cur;  //类似于pre++，cur++,二者位置后移一位
 		cur = tmp;
 	}
-	return pre;
+	return pre;  //最后是pre指向最后一个节点 cur=NULL 
 }
 //递归
 
 reverselist* reverse(reverselist* pre, reverselist* cur)
 {
 	reverselist* pre, * cur, * tmp;
-	if(!cur)
+	if(!cur) //cur==NULL 
 	return pre;
-	else
+	else  //cur!=NULL
 	{tmp = cur->next;
 	cur->next = pre;
-	return reverse(cur,tmp);}
+	return reverse(cur,tmp);}  //用图表法可以看出这是个单链树
 }
 
 
-
+//以下可以略看
 int main()
 {
-	int new_node_length;
-	printf("input node_length\n");
+	int new_node_length;   //长度计数
+	printf("input node_length\n");  
 	scanf_s("%d", &new_node_length);
 	//初始化链表
 	reverselist* head = (reverselist*)malloc(sizeof(reverselist));
@@ -47,8 +47,9 @@ int main()
 	printf("input node\n");
 	for (int i = 1; i <= new_node_length; i++)
 	{
-		reverselist* new_node = (reverselist*)malloc(sizeof(reverselist));
+		reverselist* new_node = (reverselist*)malloc(sizeof(reverselist));   
 		scanf_s("%d", &new_node->data);
+		//每次添加相当于一次尾插法
 		new_node->next = new_head->next;
 		new_head->next = new_node;
 		new_head = new_node;
