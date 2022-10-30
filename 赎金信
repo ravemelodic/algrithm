@@ -4,7 +4,7 @@
 /*
 leetcode链接：https ://leetcode.cn/problems/ransom-note
 */
-
+//原理与字母异位那道题相似，只是从相同关系变成了包含关系，magazine的字母包含ransomnote的字母，magazine存值，ransomnote查值并且查到相同的就-1，所以只需要hashtable中的val值存在一个小于0的就证明ransomnote存在magazine中不存在的字母
 #include<string>
 bool canConstruct(char* ransomNote, char* magazine) {
 	hashtable = NULL;
