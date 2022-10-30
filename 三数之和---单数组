@@ -10,7 +10,7 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
 	//快速排序将数组从小到大排序
 	int j = numsSize,i,tmp=nums[i];
 	int** arr = (int**)malloc(10*sizeof(int*));
-	
+	//快速排序部分
 	while (i<j)
 	{
 		while(nums[j] >=tmp)
@@ -22,45 +22,48 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
 			i++;
 		}nums[j] = nums[i];
 	}
+	//三数之和部分
 	nums[i] = tmp;
 	    int k;
 		int arrtop = 0;
 		for (k = 0; k < numsSize - 2; k++)//留两个位置给left和right
 		{
-			if (nums[k] > 0)
+			if (nums[k] > 0)  //快速排序从小到大排序后，第一个若大于0，那么后面所有的值均大于0，则不可能存在a+b+c=0
 				break;
-			if (k > 0 && nums[k] ==nums[k - 1])
-				continue;
-		}
-		int left = k + 1,right=numsSize-1;
+			if (k > 0 && nums[k] ==nums[k - 1])  //去重部分，减少运行时间
+				continue;//用于跳过
+		int left = k + 1,right=numsSize-1;  
 		int sum = nums[k] + nums[left] + nums[right];
 		while (left < right)
 		{
-			if (sum > 0)
+			if (sum > 0) //如果a+b+c>0,当c>b时，考虑c过大(因为以及考虑过是否是b的原因 1.当b=k+1时，此时b为所有情况中的最小，那么若a+b+c>0，尝试考虑让b=k+2
+			                                                                      2.当b=k+2时，此时b=k+2>b=k+1直接不考虑，让c开始减小
 			{
 				right--;
 			}
-			if (sum == 0)
+			if (sum == 0)  
 			{
-				int* returnarr = (int*)malloc(3 * sizeof(int));
+				int* returnarr = (int*)malloc(3 * sizeof(int));  //内层数组分配3个int长度的空间
 				returnarr[0] = i;
 				returnarr[1] = left;
 				returnarr[2] = right;
-				arr[arrtop++] = returnarr;
+				arr[arrtop++] = returnarr;  //arr[0]=returnarr arrtop用于统计需要返回多少个三元组
 				//去重
 				while (left<right && nums[right] == nums[right - 1])
 					right--;
 				while (left < right && nums[left] == nums[left - 1])
-					left++;
+					left++; 
+				//更新指针(注意此时并不一定退出while),必须left和right一同更新，因为这个时候a+b+c=0，如果仅更新right而left不更新，a+b+c<0(c2<c1)，而同时更新(b增大，c减小，a不变)才会可能再次a+b+c=0
 				left++;
 				right--;
 			}
-			if (sum < 0)
+			if (sum < 0) //如果a+b+c<0，b<c，考虑原因同上
 			{
 				left++;
 			}
 		}
-		*returnSize = arrtop;
+		}
+		*returnSize = arrtop; //三元组长度
 		*returnColumnSizes = (int*)malloc(sizeof(int) * arrtop);
 		int z;
 		for (z = 0; z < arrtop; z++) {
