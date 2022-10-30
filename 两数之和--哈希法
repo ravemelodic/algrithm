@@ -1,0 +1,51 @@
+#include"uthash.h"   //当我们需要查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。
+typedef struct hashTable 
+{
+	int key;
+	int val;
+	UT_hash_handle hh;
+}hashTable;
+
+hashTable* hashtable;
+
+hashTable* find(int key1)
+{
+	hashTable* map=NULL;
+	HASH_FIND_INT(hashtable, &key1, map); //运行哈希函数find查找对应的键值对的地址
+	return map;
+}
+
+void insert(int key1, int val)
+{
+	hashTable* it = find(key1);
+	if (it == NULL)
+	{
+		hashTable* map = (hashTable*)malloc(sizeof(hashTable));
+		map->key = key1, map->val = val;
+		HASH_ADD_INT(hashtable, key, map);//运行哈希函数add实现新键值对的添加
+	}
+	else {
+		it->val = val;
+	}
+}
+
+int* twonums_add(int* nums, int numsSize, int target, int* returnSize)
+{
+	int* end = (int*)malloc(2 * sizeof(int));  //储存符合target的两个数位置
+	hashtable = NULL;  //在这里使用初始化可以保证如果主函数循环调用twonums_add函数时之前调用存入至hashtable中的键值对可以重新clear(因为每次调用清空的是twonues_Add函数而不是hashtable)
+	for (int i = 0; i < numsSize; i++)
+	{
+		hashTable* p = find(target - nums[i]);
+		if (p != NULL)
+		{
+			//运行输出部分
+			end[0] = p->val;
+			end[1] = i;
+			*returnSize = 2;
+			return end;   //满足条件时直接推出循环返回end
+		}
+		insert(nums[i], i);
+	}
+	*returnSize = 0;
+	return NULL;
+}
