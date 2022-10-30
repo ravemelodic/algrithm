@@ -1,4 +1,4 @@
-节点交换 1-2-3-4变为2-1-4-3  前提：不能是值交换，只能是节点交换(指针指向改变)
+//节点交换 1-2-3-4变为2-1-4-3  前提：不能是值交换，只能是节点交换(指针指向改变)
 //思路：https://programmercarl.com/0024.%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9.html#%E6%80%9D%E8%B7%AF
 //leetcode链接：https://leetcode.cn/problems/swap-nodes-in-pairs/
 typedef struct mylist
@@ -16,7 +16,7 @@ mylist* changelist(mylist* head)  //此处的head是有数据的，1-2-3-4 head-
 	mylist* leftindex,*rightindex;  //双指针法
 	leftindex = dummy_node;
 	rightindex = head;
-	while (leftindex && rightindex && rightindex->next)
+	while (leftindex && rightindex && rightindex->next)   //每3组：头该组首节点-偶数节点-奇数节点
 	{
 		leftindex->next = rightindex->next; //指向节点2
 		rightindex->next = leftindex->next->next; //节点1指向节点3
@@ -30,7 +30,7 @@ mylist* changelist(mylist* head)  //此处的head是有数据的，1-2-3-4 head-
 	free(dummy_node);
 }
 //递归法
-mylist* returnbacklist(mylist* head)
+mylist* returnbacklist(mylist* head)  //每两组：偶数节点-奇数节点
 {
 	mylist* new_head;
 	new_head = head->next;
