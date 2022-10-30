@@ -1,0 +1,46 @@
+//面试题 链表相交
+//leetcode链接：https://leetcode.cn/problems/intersection-of-two-linked-lists-lcci/
+ struct ListNode {
+    int val;
+     struct ListNode *next;
+  };
+  
+//输入intersectval=8,listA=[4,1,8,4,5],listB=[5,0,1,8,4,5] skipA=2,skipB=3
+struct ListNode* getIntersectionNode(struct ListNode* headA, struct ListNode* headB) 
+{
+	int gap,a,b,intersected=0;
+	ListNode* tmp1, * tmp2;
+	tmp1 = headA;
+	tmp2 = headB;
+	while (tmp1)
+	{
+		tmp1 = tmp1->next;
+		a++;
+	}
+	while (tmp2)
+	{
+		tmp2 = tmp2->next;
+		b++;
+	}
+	if (a > b)
+	{
+		gap = a - b;
+		tmp1 = headA; tmp2 = headB;   //tmp1对应长的，tmp2对应短的
+	}
+	else if (a < b)
+	{
+		gap = b - a;
+		tmp1 = headB, tmp2 = headA;
+	}
+	while (gap--)
+	{
+		tmp1 = tmp1->next;
+	}
+	while (tmp1&&tmp2)
+	{
+		if (tmp1->val == tmp2->val)
+			return tmp1;
+			tmp1 = tmp1->next;
+			tmp2 = tmp2->next;
+	}
+}
