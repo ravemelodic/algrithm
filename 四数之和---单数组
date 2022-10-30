@@ -1,0 +1,70 @@
+//三数之和
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+
+//双指针法 以nums=[-1,0,1,2,-1,-4]为例
+int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {
+	//快速排序将数组从小到大排序
+	int j = numsSize,i,tmp=nums[i];
+	int** arr = (int**)malloc(10*sizeof(int*));
+	
+	while (i<j)
+	{
+		while(nums[j] >=tmp)
+		{
+			j--;
+		}nums[i] = nums[j];
+		while(nums[i]<=tmp)
+		{
+			i++;
+		}nums[j] = nums[i];
+	}
+	nums[i] = tmp;
+	    int k;
+		int arrtop = 0;
+		for (k = 0; k < numsSize - 2; k++)//留两个位置给left和right
+		{
+			if (nums[k] > 0)
+				break;
+			if (k > 0 && nums[k] ==nums[k - 1])
+				continue;
+		}
+		int left = k + 1,right=numsSize-1;
+		int sum = nums[k] + nums[left] + nums[right];
+		while (left < right)
+		{
+			if (sum > 0)
+			{
+				right--;
+			}
+			if (sum == 0)
+			{
+				int* returnarr = (int*)malloc(3 * sizeof(int));
+				returnarr[0] = i;
+				returnarr[1] = left;
+				returnarr[2] = right;
+				arr[arrtop++] = returnarr;
+				//去重
+				while (left<right && nums[right] == nums[right - 1])
+					right--;
+				while (left < right && nums[left] == nums[left - 1])
+					left++;
+				left++;
+				right--;
+			}
+			if (sum < 0)
+			{
+				left++;
+			}
+		}
+		*returnSize = arrtop;
+		*returnColumnSizes = (int*)malloc(sizeof(int) * arrtop);
+		int z;
+		for (z = 0; z < arrtop; z++) {
+			(*returnColumnSizes)[z] = 3;  //二维数组中的元数组长度
+		}
+		return arr;
+}
