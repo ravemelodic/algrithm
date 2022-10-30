@@ -1,0 +1,55 @@
+typedef struct listnode
+{
+	int val;
+	listnode* next;
+}listnode;
+
+listnode* shanchu(listnode* head,int val)
+{
+	listnode* dummynode=(listnode*)malloc(sizeof(listnode));
+	dummynode->next = head;
+	listnode* curnode = dummynode;
+	while (curnode->next!=NULL)
+	{
+		if (curnode->next->val == val)
+		{
+			listnode* tmp = curnode->next;
+			curnode->next = curnode->next->next;
+			free(tmp);
+		}
+		else
+			curnode = curnode->next;
+	}
+	head = dummynode->next;
+	free(dummynode);
+	return head;
+
+}
+
+int main()
+{
+	listnode* p, * q;
+	int val = 3;
+	int node_length;
+	listnode* head = (listnode*)malloc(sizeof(listnode));
+	head->next = NULL;
+	q = head;
+	printf("input node_length\n");
+	scanf_s("%d", &node_length);
+	printf("input node\n");
+	for(int i=0;i<node_length;i++)
+	{
+		p = (listnode*)malloc(sizeof(listnode));
+		scanf_s("%d", &p->val);
+		p->next = q->next;
+		q->next = p;
+		q = p;
+	}
+	head = shanchu(head, val);
+	p = (listnode*)malloc(sizeof(listnode));
+	p = head;
+	while (p->next != NULL)
+	{
+		printf("%d", p->next->val);
+		p = p->next;
+	}
