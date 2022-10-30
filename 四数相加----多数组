@@ -1,4 +1,7 @@
 //四数相加
+//给定四个包含整数的数组列表 A , B , C , D ,计算有多少个元组 (i, j, k, l) ，使得 A[i] + B[j] + C[k] + D[l] = 0。
+
+为了使问题简单化，所有的 A, B, C, D 具有相同的长度 N，且 0 ≤ N ≤ 500 。所有整数的范围在 -2^28 到 2^28 - 1 之间，最终结果不会超过 2^31 - 1 。
 typedef struct hashTable 
 {
 	int key;
@@ -15,7 +18,7 @@ int fourSumCount(int* nums1, int nums1Size, int* nums2, int nums2Size, int* nums
 		for (int j = 0; j < nums2Size; j++)
 		{
 			sum1 = nums1[i] + nums2[j];
-			hashTable* map=NULL;
+			hashTable* map;
 			HASH_FIND_INT(hashtable, &sum1, map);
 			if (map == NULL)
 			{
@@ -38,7 +41,7 @@ int fourSumCount(int* nums1, int nums1Size, int* nums2, int nums2Size, int* nums
 			HASH_FIND_INT(hashtable, &sum2, map);
 			if (map != NULL)
 			{
-				sum2 += map->val;
+				sum2 += map->val; //sum2用于统计元组数量，相等一次证明一个元组和为0
 			}
 		}
 	}return sum2;
