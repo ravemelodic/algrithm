@@ -1,0 +1,39 @@
+//赎金信：给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+
+//如果可以，返回 true ；否则返回 false 。
+/*
+leetcode链接：https ://leetcode.cn/problems/ransom-note
+*/
+
+#include<string>
+bool canConstruct(char* ransomNote, char* magazine) {
+	hashtable = NULL;
+	int r_size, m_size;
+	char ikey;
+	hashTable* store=NULL;
+	r_size = strlen(ransomNote);
+	m_size = strlen(magazine);
+	for (int i = 0; i < m_size; i++)
+	{
+		ikey = magazine[i];
+		HASH_FIND_INT(hashtable,&ikey, store);
+		if (store == NULL)
+		{
+			store->key = ikey;
+			store->val = 1;
+			HASH_ADD_INT(hashtable, key, val);
+		}
+		else
+			store->val++;
+	}
+	hashTable* map = NULL;
+	for (int j = 0; j < r_size; j++)
+	{
+		ikey = ransomNote[j];
+		HASH_FIND_INT(hashtable,&ikey, map);
+		if (map == NULL || map->val < 0)
+			return false;
+			map->val--;
+	}
+	return true;
+}
