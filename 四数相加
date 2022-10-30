@@ -1,0 +1,45 @@
+//四数相加
+typedef struct hashTable 
+{
+	int key;
+	int val;
+	UT_hash_handle hh;
+}hashTable;
+           //A=[1,2]    2             B=[-2,-1]      2         C=[-1,2]      2             D=[0,2]       2
+int fourSumCount(int* nums1, int nums1Size, int* nums2, int nums2Size, int* nums3, int nums3Size, int* nums4, int nums4Size) 
+{
+	int sum1=0,sum2=0;
+	int* store = (int*)malloc(4 * sizeof(int)); //储存元组的地方
+	for (int i = 0; i < nums1Size; i++)
+	{
+		for (int j = 0; j < nums2Size; j++)
+		{
+			sum1 = nums1[i] + nums2[j];
+			hashTable* map=NULL;
+			HASH_FIND_INT(hashtable, &sum1, map);
+			if (map == NULL)
+			{
+				map->key = sum1;
+				map->val = 1;   //val是每次通过一个key找到一次对应的就加一，用来统计不同键的数量  比如key=-1上面sum1出现了两次，那么val=2
+				HASH_ADD_INT(hashtable, key, val);
+			}
+			else
+				map->val++;
+
+		}
+	}
+	int sum = 0;
+	for (int n = 0; n < nums3Size; n++)
+	{
+		for (int m = 0; m < nums4Size; m++)
+		{
+			sum2 = -nums3[n] - nums4[m];  //sum1+sum2=-(sum3+sum4)   只要sum1=sum2的时候，使用hash_find通过输入sum2的值寻找与sum1相同的值的个数，并通过sum+=val判断有几个满足的，比如这里如果sum2=-1，sum1=-1,那么也就是说sum1=sum2的情况,但是sum1=-1的却有2次(val=2)，所以满足sum1=sum2的情况是2次，所以根据sum1的val来看有多少次相等
+			hashTable* map;
+			HASH_FIND_INT(hashtable, &sum2, map);
+			if (map != NULL)
+			{
+				sum2 += map->val;
+			}
+		}
+	}return sum2;
+}
